@@ -6,6 +6,7 @@ public class FirstExampleImplementation implements SumatorInterface{
 
     @Override
     public ArrayList<String> readFile(String filePath) throws IOException {
+        long startTime = System.nanoTime();
         File file = new File(filePath);
         ArrayList<String> outputList=new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -14,11 +15,15 @@ public class FirstExampleImplementation implements SumatorInterface{
                 outputList.add(line);
             }
         }
+        long endTime   = System.nanoTime();
+        long totalTime = endTime - startTime;
+        System.out.println("time for file loading (same for both) "+totalTime+ " nanoseconds");
         return outputList;
     }
 
     @Override
     public void run(String file) {
+        long startTime = System.nanoTime();
         ArrayList<String> resultList=new ArrayList<>();
         try {
             resultList=readFile(file);
@@ -29,6 +34,9 @@ public class FirstExampleImplementation implements SumatorInterface{
             String []splittedArray = s.split(";");
             System.out.println(math(splittedArray[0], splittedArray[1], splittedArray[2]));
         }
+        long endTime   = System.nanoTime();
+        long totalTime = endTime - startTime;
+        System.out.println("time for 1st case: "+totalTime+ " nanoseconds");
     }
 
     @Override

@@ -21,6 +21,7 @@ public class SecoundExampleImplementation implements SumatorInterface {
 
     @Override
     public void run(String file) {
+        long startTime = System.nanoTime();
         ArrayList<String> resultList=new ArrayList<>();
         try {
             resultList=readFile(file);
@@ -31,6 +32,9 @@ public class SecoundExampleImplementation implements SumatorInterface {
             String []splittedArray = s.split(";");
             System.out.println(math(splittedArray[0], splittedArray[1], splittedArray[2]));
         }
+        long endTime   = System.nanoTime();
+        long totalTime = endTime - startTime;
+        System.out.println("time for 2nd case: "+totalTime+" nanoseconds");
     }
 
     public StringBuilder fillWithZeros(String toFill, int size){
