@@ -49,6 +49,8 @@ public class FirstExampleImplementation implements SumatorInterface{
         char[] A = a.toCharArray();
         char[] B = b.toCharArray();
 
+        int negativeOperatorB=B[0]=='-'?1:0;
+
         int lengthA=a.length();
         int lengthB=b.length();
 
@@ -59,11 +61,14 @@ public class FirstExampleImplementation implements SumatorInterface{
         for (int single = 0; operator > 0; single /= 10) {
             if (lengthA > 0)
                 single += A[--lengthA] - zero;
-            if (lengthB > 0)
+            if (lengthB > 1 && negativeOperatorB==1)
+                single += B[--lengthB] - zero;
+            if (lengthB > 0 && negativeOperatorB==0)
                 single += B[--lengthB] - zero;
             C[--operator] = (char) (zero + single % 10);
         }
-        return new String(C, operator, C.length - operator).equals(result);
+        String s = new String(C, operator, C.length - operator);
+        return s.toCharArray()[0]=='0'?s.substring(1).equals(result.substring(1)):s.equals(result);
     }
 
 
