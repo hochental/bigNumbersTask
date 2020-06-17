@@ -30,14 +30,19 @@ public class FirstExampleImplementation implements SumatorInterface{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        int counter=0;
         for(String s: resultList){
             String []splittedArray = s.split(";");
-            System.out.println(math(splittedArray[0], splittedArray[1], splittedArray[2]));
+            if(math(splittedArray[0], splittedArray[1], splittedArray[2])){
+                counter++;
+            }
         }
         long endTime   = System.nanoTime();
         long totalTime = endTime - startTime;
-        System.out.println("time for 1st case: "+totalTime+ " nanoseconds");
+        System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
+        System.out.println("GammaSoft: Przetwarzanie wierszy trwalo "+(double)totalTime/1_000_000_000.0+"s"+" Przetworzono wierszy: "+resultList.size()+", w tym sum prawidłowych:  "+counter);
     }
+
 
     @Override
     public boolean math(String a, String b, String result){
