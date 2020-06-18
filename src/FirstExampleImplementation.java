@@ -51,6 +51,59 @@ public class FirstExampleImplementation implements SumatorInterface{
         return new StringBuilder(s+toFill);
     }
 
+    public Boolean substractionCase(String a, String b, String c){
+        int size = a.length()>b.length()?a.length():b.length();
+        String temp;
+
+        //szukamy większej liczby
+
+        if((b.length()==a.length())){
+            for(int i=0; i<b.length()-1;i++){
+                if(b.toCharArray()[i]>a.toCharArray()[i]){
+                    temp=a;
+                    a=b;
+                    b=temp;
+                    break;
+                }
+            }
+        }
+        if(b.length()>a.length()){
+            temp=a;
+            a=b;
+            b=temp;
+        }
+        if(a.length()>b.length()){
+            b=fillWithZeros(b, size).toString();
+        }
+        if(a.length()<b.length()){
+            a=fillWithZeros(a, size).toString();
+        }
+
+        StringBuilder sb= new StringBuilder();
+
+        char []A=a.toCharArray();
+        char []B=b.toCharArray();
+
+        for(int i=size-1; i>=0; i--){
+            if(A[i]<B[i]){
+                if(i==0) {
+                    continue;
+                }
+                A[i - 1]--;
+                sb.append(Character.getNumericValue(A[i])+10-Character.getNumericValue(B[i]));
+            }else{
+                sb.append(Character.getNumericValue(A[i])-Character.getNumericValue(B[i]));
+            }
+        }
+
+        String output = sb.reverse().toString();
+
+        output=output.replaceFirst("^0+(?!$)", "");
+
+        return output.equals(c) ;
+
+    }
+
     @Override
     public boolean math(String a, String b, String result){
         char[] A = a.toCharArray();
@@ -59,47 +112,17 @@ public class FirstExampleImplementation implements SumatorInterface{
         int negativeOperatorA=A[0]=='-'?1:0;
         int negativeOperatorB=B[0]=='-'?1:0;
 
-        if((negativeOperatorA==1 && negativeOperatorB==0)|| (negativeOperatorA==0 && negativeOperatorB==1)){
-
-            if(negativeOperatorA==1)
+        if((negativeOperatorA==1 && negativeOperatorB==0) || (negativeOperatorA==0 && negativeOperatorB==1)){
+            if(negativeOperatorA==1){
                 a=a.substring(1);
-            if(negativeOperatorB==1)
+            }
+            if(negativeOperatorB==1){
                 b=b.substring(1);
-            if(result.toCharArray()[0]=='-')
+            }
+            if(result.toCharArray()[0]=='-'){
                 result=result.substring(1);
-
-            if(a.equals(b) && result.equals("0")){
-                return true;
             }
-
-            int size = a.length()>b.length()?a.length():b.length();
-            String temp;
-
-            if(b.length()>=a.length() && b.toCharArray()[0]>=a.toCharArray()[0]){
-                temp=a;
-                a=b;
-                b=temp;
-            }
-
-            if(a.length()>b.length()){
-                b=fillWithZeros(b, size).toString();
-            }else if(a.length()<b.length()){
-                a=fillWithZeros(a, size).toString();
-            }
-
-            StringBuilder sb= new StringBuilder();
-            char []A1=a.toCharArray();
-            char []B1=b.toCharArray();
-
-            for(int i=size-1; i>=0; i--){
-                if(A1[i]<B1[i]){
-                    A1[i-1]--;
-                    sb.append(Character.getNumericValue(A1[i])+10-Character.getNumericValue(B1[i]));
-                }else{
-                    sb.append(Character.getNumericValue(A1[i])-Character.getNumericValue(B1[i]));
-                }
-            }
-            return sb.reverse().toString().equals(result);
+            return substractionCase(a,b,result);
         }
 
         int lengthA=a.length();
