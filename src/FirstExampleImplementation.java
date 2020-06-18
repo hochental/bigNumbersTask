@@ -45,9 +45,6 @@ public class FirstExampleImplementation implements SumatorInterface{
 
     @Override
     public boolean math(String a, String b, String result){
-        if (a.equals(b)) {
-            return b.equals(result);
-        }
         char[] A = a.toCharArray();
         char[] B = b.toCharArray();
         int lengthA=a.length();
