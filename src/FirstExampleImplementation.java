@@ -50,16 +50,31 @@ public class FirstExampleImplementation implements SumatorInterface{
         int lengthA=a.length();
         int lengthB=b.length();
         int operator = A.length>B.length?A.length:B.length;
+        operator++;
         char[] C = new char[operator];
         char zero = '0';
+
         for (int single = 0; operator > 0; single /= 10) {
             if (lengthA > 0)
                 single += A[--lengthA] - zero;
             if (lengthB > 0)
                 single += B[--lengthB] - zero;
-            C[--operator] = (char) (zero + single % 10);
+                C[--operator] = (char) (zero + single % 10);
         }
-        return new String(C, operator, C.length - operator).equals(result);
+
+        String s = new String(C, operator, C.length - operator);
+
+
+
+        s=s.replaceFirst("^0+(?!$)", "");
+
+        if(s.equals(result)){
+            System.out.println(s+" [ok]");
+        }else{
+            System.out.println(s+" [nie ok]");
+        }
+
+        return s.equals(result);
     }
 
 
