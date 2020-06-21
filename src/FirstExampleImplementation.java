@@ -64,15 +64,7 @@ public class FirstExampleImplementation implements SumatorInterface{
 
         String s = new String(C, operator, C.length - operator);
 
-
-
         s=s.replaceFirst("^0+(?!$)", "");
-
-        if(s.equals(result)){
-            System.out.println(s+" [ok]");
-        }else{
-            System.out.println(s+" [nie ok]");
-        }
 
         return s.equals(result);
     }
