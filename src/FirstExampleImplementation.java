@@ -5,44 +5,40 @@ import java.util.*;
 public class FirstExampleImplementation implements SumatorInterface{
 
     @Override
-    public HashMap<Integer, String> readFile(String filePath) throws IOException {
-        long startTime = System.nanoTime();
+    public List<Integer> readFile(String filePath) throws IOException {
         File file = new File(filePath);
-        HashMap<Integer, String> outputList=new HashMap<>();
+        int counter=0;
         int i=0;
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
             while ((line = br.readLine()) != null) {
-                outputList.put(i,line);
+                String []splittedArray = line.split(";");
+                if(math(splittedArray[0], splittedArray[1], splittedArray[2])){
+                    counter++;
+                }
                 i++;
             }
         }
-        long endTime   = System.nanoTime();
-        long totalTime = endTime - startTime;
-        System.out.println("time for file loading (same for both) "+totalTime+ " nanoseconds");
-        return outputList;
+        List<Integer> list = new ArrayList<>();
+        list.add(counter);
+        list.add(i);
+        return list;
     }
 
     @Override
     public void run(String file) {
         long startTime = System.nanoTime();
-        HashMap<Integer, String> resultList=new HashMap<>();
+        List<Integer> list = null;
         try {
-            resultList=readFile(file);
+            list = readFile(file);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        int counter=0;
-        for(String s: resultList.values()){
-            String []splittedArray = s.split(";");
-            if(math(splittedArray[0], splittedArray[1], splittedArray[2])){
-                counter++;
-            }
         }
         long endTime   = System.nanoTime();
         long totalTime = endTime - startTime;
         System.out.println("+++++++++++++++++++++++++++++++++++++++++++");
-        System.out.println("GammaSoft: Przetwarzanie wierszy trwalo "+(double)totalTime/1_000_000_000.0+"s"+" Przetworzono wierszy: "+resultList.size()+", w tym sum prawidłowych:  "+counter);
+        assert list != null;
+        System.out.println("GammaSoft: Przetwarzanie wierszy trwalo "+(double)totalTime/1_000_000_000.0+"s"+" Przetworzono wierszy: "+list.get(0)+", w tym sum prawidłowych:  "+list.get(1));
     }
 
     @Override
@@ -67,7 +63,7 @@ public class FirstExampleImplementation implements SumatorInterface{
                 single += A[--lengthA] - zero;
             if (lengthB > 0)
                 single += B[--lengthB] - zero;
-                C[--operator] = (char) (zero + single % 10);
+            C[--operator] = (char) (zero + single % 10);
         }
         String s;
         if(C[0]=='0'){
@@ -78,6 +74,4 @@ public class FirstExampleImplementation implements SumatorInterface{
         }
         return s.equals(result);
     }
-
-
 }
